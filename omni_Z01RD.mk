@@ -22,6 +22,9 @@ $(call inherit-product, build/target/product/embedded.mk)
 # Inherit from our custom product configuration
 $(call inherit-product, vendor/omni/config/common.mk)
 
+# Define hardware platform
+PRODUCT_PLATFORM := sdm845
+
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.hardware.keystore=sdm845
 

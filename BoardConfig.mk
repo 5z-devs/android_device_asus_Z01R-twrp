@@ -23,6 +23,9 @@
 # *not* include it on all devices, so it is safe even with hardware-specific
 # components.
 
+# Default device path
+DEVICE_PATH := device/asus/Z01RD
+
 # Architecture
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
@@ -31,7 +34,7 @@ TARGET_CPU_ABI2 :=
 TARGET_CPU_VARIANT := kryo
 
 TARGET_2ND_ARCH := arm
-TARGET_2ND_ARCH_VARIANT := armv7-a-neon
+TARGET_2ND_ARCH_VARIANT := armv8-a
 TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := cortex-a53
@@ -41,7 +44,7 @@ ENABLE_CPUSETS := true
 ENABLE_SCHEDBOOST := true
 
 # Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := sdm845
+TARGET_BOOTLOADER_BOARD_NAME := $(PRODUCT_PLATFORM)
 TARGET_NO_BOOTLOADER := true
 
 # Kernel
@@ -49,21 +52,36 @@ BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_TAGS_OFFSET := 0x00000100
 BOARD_RAMDISK_OFFSET     := 0x01000000
-BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 earlycon=msm_geni_serial,0xA84000 androidboot.hardware=qcom androidboot.console=ttyMSM0 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 service_locator.enable=1 swiotlb=2048 androidboot.configfs=true firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7 androidboot.usbcontroller=a600000.dwc3
-BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
-BOARD_KERNEL_CMDLINE += androidboot.fastboot=1
-BOARD_KERNEL_CMDLINE += buildv=WW_user_90.11.162.72
-BOARD_KERNEL_CMDLINE += androidboot.avb_version=0.0 androidboot.vbmeta.avb_version=0.0
+BOARD_KERNEL_CMDLINE :=  \
+    console=ttyMSM0,115200n8 \
+    earlycon=msm_geni_serial,0xA84000 \
+    androidboot.hardware=qcom \
+    androidboot.console=ttyMSM0 \
+    video=vfb:640x400,bpp=32,memsize=3072000 \
+    msm_rtb.filter=0x237 \
+    ehci-hcd.park=3 \
+    lpm_levels.sleep_disabled=1 \
+    service_locator.enable=1 \
+    swiotlb=2048 \
+    androidboot.configfs=true \
+    loop.max_part=7 \
+    androidboot.usbcontroller=a600000.dwc3 \
+    androidboot.fastboot=1 \
+    buildv=WW_user_90.11.162.72 \
+    androidboot.avb_version=0.0 \
+    androidboot.vbmeta.avb_version=0.0 \
+    androidboot.selinux=permissive
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
-NEED_KERNEL_MODULE_SYSTEM := true
 TARGET_KERNEL_ARCH := arm64
-#TARGET_KERNEL_CONFIG := Z01R_defconfig
-#TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
-#TARGET_KERNEL_SOURCE := kernel/asus/sdm845
-TARGET_PREBUILT_KERNEL := device/asus/Z01RD/prebuilt/Image.gz-dtb
+TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/$(BOARD_KERNEL_IMAGE_NAME)
+ifeq ($(TARGET_PREBUILT_KERNEL),)
+  TARGET_KERNEL_CONFIG := Z01R_defconfig
+  TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
+  TARGET_KERNEL_SOURCE := kernel/asus/$(PRODUCT_PLATFORM)
+endif
 
 # Platform
-TARGET_BOARD_PLATFORM := sdm845
+TARGET_BOARD_PLATFORM := $(PRODUCT_PLATFORM)
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno630
 
 # Partitions

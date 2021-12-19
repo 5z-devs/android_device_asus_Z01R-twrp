@@ -28,7 +28,7 @@ Asus Zenfone 5z was announced and released in June 2018.
 ## Kernel
 
 Prebuilt kernel source:
-https://github.com/5z-devs/android_kernel_asus_sdm845/commits/ed6c0fddc76661961b87ca9acabc96213bc197a3
+https://github.com/5z-devs/android_kernel_asus_sdm845/commits/ffdc8c11296faba94bac36010a05b1f7e0ee5b35
 
 ## Compile
 
@@ -37,8 +37,6 @@ First download omni-9.0 tree:
 ```
 repo init -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-9.0
 ```
-Then add these string to .repo/manifests/remove.xml
-
 
 Then add these projects to .repo/local_manifests/roomservice.xml (If you don't have it, you can add them to .repo/manifest.xml): 
 
